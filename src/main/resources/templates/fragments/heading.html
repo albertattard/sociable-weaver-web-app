@@ -1,0 +1,28 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<div th:fragment="reader" th:id="|entry-${id}|">
+    <h1 th:if="${entry.level == T(demo.sw.model.Heading.Level).H1}" th:utext="${entry.titleAsHtml()}"></h1>
+    <h2 th:if="${entry.level == T(demo.sw.model.Heading.Level).H2}" th:utext="${entry.titleAsHtml()}"></h2>
+    <h3 th:if="${entry.level == T(demo.sw.model.Heading.Level).H3}" th:utext="${entry.titleAsHtml()}"></h3>
+    <h4 th:if="${entry.level == T(demo.sw.model.Heading.Level).H4}" th:utext="${entry.titleAsHtml()}"></h4>
+    <h5 th:if="${entry.level == T(demo.sw.model.Heading.Level).H5}" th:utext="${entry.titleAsHtml()}"></h5>
+    <div th:replace="~{fragments/controls :: edit(id=${id})}"></div>
+    <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+</div>
+
+<div th:fragment="editor" th:id="|entry-${id}|">
+    <form th:fragment="editor" th:object="${entry}" th:action="@{/entry/{id}(id=${id})}" method="post">
+        <select>
+            <option th:each="level : ${T(demo.sw.model.Heading.Level).values()}" th:id="${level}" th:value="${level}"
+                    th:text="${level}"></option>
+        </select>
+        <input type="text" id="title" th:field="*{title}">
+        <p th:if="${#fields.hasErrors('title')}" th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
+        <div th:replace="~{fragments/controls :: save(id=${id})}"></div>
+        <div th:replace="~{fragments/controls :: cancel(id=${id})}"></div>
+        <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+    </form>
+</div>
+</html>

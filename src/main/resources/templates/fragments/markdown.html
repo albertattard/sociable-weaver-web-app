@@ -1,0 +1,10 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<div th:fragment="reader" th:id="|entry-${id}|">
+    <div th:utext="${entry.contentsAsHtml()}"></div>
+    <div th:replace="~{fragments/controls :: edit(id=${id})}"></div>
+    <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+</div>
+</html>

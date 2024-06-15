@@ -1,0 +1,23 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+
+<button th:fragment="copyContent" th:attr="onclick=|writeElementByIdToClipboard('${id}')|">Copy</button>
+
+<button th:fragment="edit" hx-trigger="click" hx-swap="outerHTML"
+        th:attr="hx-get=@{/entry/{id}/editor(id=${id})},hx-target=|#entry-${id}|">Edit
+</button>
+
+<button th:fragment="delete" hx-trigger="click" hx-swap="outerHTML"
+        th:attr="hx-delete=@{/entry/{id}(id=${id})},hx-target=|#entry-${id}|">Delete
+</button>
+
+<button th:fragment="save" hx-trigger="click" hx-swap="outerHTML"
+        th:attr="hx-put=@{/entry/{id}(id=${id})},hx-target=|#entry-${id}|">Save
+</button>
+
+<button th:fragment="cancel" hx-trigger="click" hx-swap="outerHTML"
+        th:attr="hx-get=@{/entry/{id}/reader(id=${id})},hx-target=|#entry-${id}|">Cancel
+</button>
+
+</html>

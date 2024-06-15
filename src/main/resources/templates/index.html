@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle}">Sociable Weaver</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body class="h-full">
+<header>Header</header>
+<table>
+    <tbody>
+    <tr th:each="entry, i: ${entries}">
+        <td>
+            <div th:replace="~{fragments/__${entry.fragmentName()}__ :: reader(entry=${entry}, id=${i.index})}"></div>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+<footer>
+    <p>Footer</p>
+</footer>
+<script type="text/javascript" th:src="@{/webjars/htmx.org/dist/htmx.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/clipboard.js}"></script>
+</html>
