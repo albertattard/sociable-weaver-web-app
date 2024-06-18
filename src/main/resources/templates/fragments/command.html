@@ -2,10 +2,21 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<div th:fragment="reader" th:id="|entry-${id}|">
-    <pre th:text="${entry.commandsAsText()}" th:id="|entry-${id}-content|"></pre>
-    <div th:replace="~{fragments/controls :: copyContent(id=|entry-${id}-content|)}"></div>
-    <div th:replace="~{fragments/controls :: edit(id=${id})}"></div>
-    <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+<div th:fragment="reader" th:id="|entry-${entry.getId()}|">
+    <pre th:text="${entry.getCommandsAsText()}" th:id="|entry-${entry.getId()}-content|"></pre>
+    <div th:replace="~{fragments/controls :: copyContent(id=|entry-${entry.getId()}-content|)}"></div>
+    <div th:replace="~{fragments/controls :: edit(id=${entry.getId()})}"></div>
+    <div th:replace="~{fragments/controls :: delete(id=${entry.getId()})}"></div>
+</div>
+
+<div th:fragment="editor" th:id="|entry-${id}|">
+    <form th:fragment="editor" th:object="${entry}">
+        <input type="hidden" th:field="*{id}">
+        <textarea th:field="*{commandsAsText}"></textarea>
+
+        <div th:replace="~{fragments/controls :: save(id=${entry.getId()}, type=${entry.fragmentName()})}"></div>
+        <div th:replace="~{fragments/controls :: cancel(id=${entry.getId()})}"></div>
+        <div th:replace="~{fragments/controls :: delete(id=${entry.getId()})}"></div>
+    </form>
 </div>
 </html>

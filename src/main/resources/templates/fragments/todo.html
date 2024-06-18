@@ -2,9 +2,8 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<div th:fragment="reader" th:id="|entry-${id}|" th:text="${entry.commentsAsHtml()}">
-    <button hx-trigger="click" hx-swap="outerHTML"
-            th:attr="hx-delete=@{/entry/{id}(id=${id})},hx-target=|#entry-${id}|">Delete
-    </button>
+<div th:fragment="reader" th:id="|entry-${entry.getId()}|">
+    <div th:text="${entry.getCommentsAsHtml()}"></div>
+    <div th:replace="~{fragments/controls :: delete(id=${entry.getId()})}"></div>
 </div>
 </html>

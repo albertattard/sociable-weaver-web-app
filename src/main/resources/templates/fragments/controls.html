@@ -2,22 +2,35 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<button th:fragment="copyContent" th:attr="onclick=|writeElementByIdToClipboard('${id}')|">Copy</button>
-
-<button th:fragment="edit" hx-trigger="click" hx-swap="outerHTML"
-        th:attr="hx-get=@{/entry/{id}/editor(id=${id})},hx-target=|#entry-${id}|">Edit
+<button th:fragment="copyContent" th:attr="onclick=|writeElementByIdToClipboard('${id}')|"
+        class="px-2 py-1 text-xs font-small text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+    Copy
 </button>
 
+<a th:fragment="edit" hx-trigger="click" hx-swap="outerHTML"
+   th:attr="hx-get=@{/document/{path}/entry/{id}/editor(path=${path},id=${id})},hx-target=|#entry-${id}|"
+   href="#"
+   class="px-2 py-1 font-small text-blue-600 dark:text-blue-500 hover:underline">
+    Edit
+</a>
+
 <button th:fragment="delete" hx-trigger="click" hx-swap="outerHTML"
-        th:attr="hx-delete=@{/entry/{id}(id=${id})},hx-target=|#entry-${id}|">Delete
+        th:attr="hx-delete=@{/document/{path}/entry/{id}(path=${path},id=${id})},hx-target=|#entry-${id}|"
+        class="focus:outline-none text-white bg-red-200 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-small rounded-lg text-xs px-2 py-1 dark:bg-red-600 dark:hover:bg-red-200 dark:focus:ring-red-900">
+    Delete
 </button>
 
 <button th:fragment="save" hx-trigger="click" hx-swap="outerHTML"
-        th:attr="hx-put=@{/entry/{id}(id=${id})},hx-target=|#entry-${id}|">Save
+        th:attr="hx-put=@{/document/{path}/entry/{id}/{type}(path=${path},id=${id},type=${type})},hx-target=|#entry-${id}|"
+        class="text-white bg-blue-200 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-small rounded-lg text-xs px-2 py-1 dark:bg-blue-600 dark:hover:bg-blue-200 focus:outline-none dark:focus:ring-blue-800">
+    Save
 </button>
 
-<button th:fragment="cancel" hx-trigger="click" hx-swap="outerHTML"
-        th:attr="hx-get=@{/entry/{id}/reader(id=${id})},hx-target=|#entry-${id}|">Cancel
-</button>
+<a th:fragment="cancel" hx-trigger="click" hx-swap="outerHTML"
+   th:attr="hx-get=@{/document/{path}/entry/{id}/reader(path=${path},id=${id})},hx-target=|#entry-${id}|"
+   href="#"
+   class="px-2 py-1 font-small text-gary-600 dark:text-gray-500 hover:underline">
+    Cancel
+</a>
 
 </html>

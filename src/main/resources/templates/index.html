@@ -4,26 +4,36 @@
       lang="en">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${pageTitle}">Sociable Weaver</title>
+    <title th:text="${document.getTitle()}">Sociable Weaver</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/css/application.css}">
 </head>
-<body class="h-full">
-<header>Header</header>
-<table>
+<body class="h-full w-full bg-white dark:bg-gray-800">
+<header class="bg-gray-100 dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+    <nav class="flex flex-row">
+        <label for="path" class="flex grow-0 items-center pr-4">Sociable Weaver File</label>
+        <input type="text" name="path" id="path" class="grow" th:value="${document.getPath()}"
+               placeholder="Path to the Sociable Weaver (sw-runbook.json) file">
+        <button class="flex-none focus:outline-none text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:ring-gray-300 font-medium text-sm px-5 py-2.5 dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-900 h-fill"
+                onclick="openDocument()">
+            Open
+        </button>
+    </nav>
+</header>
+<table class="mt-14">
     <tbody>
-    <tr th:each="entry, i: ${entries}">
+    <tr th:each="entry: ${document.getEntries()}">
         <td>
-            <div th:replace="~{fragments/__${entry.fragmentName()}__ :: reader(entry=${entry}, id=${i.index})}"></div>
+            <div th:replace="~{fragments/__${entry.fragmentName()}__ :: reader(entry=${entry}, path=${document.getBase64Path()})}"></div>
         </td>
     </tr>
     </tbody>
 </table>
 </body>
-<footer>
-    <p>Footer</p>
-</footer>
+<footer>Document has <strong th:text="${document.size()}"></strong> entries</footer>
 <script type="text/javascript" th:src="@{/webjars/htmx.org/dist/htmx.min.js}"></script>
 <script type="text/javascript" th:src="@{/js/clipboard.js}"></script>
+<script type="text/javascript" th:src="@{/js/a.js}"></script>
 </html>

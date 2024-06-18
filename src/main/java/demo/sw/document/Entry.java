@@ -1,7 +1,15 @@
-package demo.sw.model;
+package demo.sw.document;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import demo.sw.document.breakpoint.Breakpoint;
+import demo.sw.document.command.Command;
+import demo.sw.document.displayfile.DisplayFile;
+import demo.sw.document.heading.Heading;
+import demo.sw.document.markdown.Markdown;
+import demo.sw.document.todo.Todo;
+
+import java.util.UUID;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
@@ -12,7 +20,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
         @JsonSubTypes.Type(value = Markdown.class, name = "Markdown"),
         @JsonSubTypes.Type(value = Todo.class, name = "Todo"),
 })
-public sealed interface Entry permits Breakpoint, Command, DisplayFile, Heading, Markdown, Todo {
+public interface Entry {
+
+    UUID getId();
 
     default String fragmentName() {
         final char[] chars = getClass().getSimpleName().toCharArray();

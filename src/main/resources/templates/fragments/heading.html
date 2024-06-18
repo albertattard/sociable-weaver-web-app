@@ -2,27 +2,37 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<div th:fragment="reader" th:id="|entry-${id}|">
-    <h1 th:if="${entry.level == T(demo.sw.model.Heading.Level).H1}" th:utext="${entry.titleAsHtml()}"></h1>
-    <h2 th:if="${entry.level == T(demo.sw.model.Heading.Level).H2}" th:utext="${entry.titleAsHtml()}"></h2>
-    <h3 th:if="${entry.level == T(demo.sw.model.Heading.Level).H3}" th:utext="${entry.titleAsHtml()}"></h3>
-    <h4 th:if="${entry.level == T(demo.sw.model.Heading.Level).H4}" th:utext="${entry.titleAsHtml()}"></h4>
-    <h5 th:if="${entry.level == T(demo.sw.model.Heading.Level).H5}" th:utext="${entry.titleAsHtml()}"></h5>
-    <div th:replace="~{fragments/controls :: edit(id=${id})}"></div>
-    <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+<div th:fragment="reader" th:id="|entry-${entry.getId()}|">
+    <h1 th:if="${entry.level == T(demo.sw.document.heading.Heading.Level).H1}" th:utext="${entry.getTitleAsHtml()}"
+        class="text-5xl font-extrabold dark:text-white"></h1>
+    <h2 th:if="${entry.level == T(demo.sw.document.heading.Heading.Level).H2}" th:utext="${entry.getTitleAsHtml()}"
+        class="text-4xl font-extrabold dark:text-white"></h2>
+    <h3 th:if="${entry.level == T(demo.sw.document.heading.Heading.Level).H3}" th:utext="${entry.getTitleAsHtml()}"
+        class="text-3xl font-extrabold dark:text-white"></h3>
+    <h4 th:if="${entry.level == T(demo.sw.document.heading.Heading.Level).H4}" th:utext="${entry.getTitleAsHtml()}"
+        class="text-2xl font-extrabold dark:text-white"></h4>
+    <h5 th:if="${entry.level == T(demo.sw.document.heading.Heading.Level).H5}" th:utext="${entry.getTitleAsHtml()}"
+        class="text-1xl font-extrabold dark:text-white"></h5>
+    <div th:replace="~{fragments/controls :: edit(path=${path},id=${entry.getId()})}"></div>
+    <div th:replace="~{fragments/controls :: delete(path=${path},id=${entry.getId()})}"></div>
 </div>
 
-<div th:fragment="editor" th:id="|entry-${id}|">
-    <form th:fragment="editor" th:object="${entry}" th:action="@{/entry/{id}(id=${id})}" method="post">
-        <select>
-            <option th:each="level : ${T(demo.sw.model.Heading.Level).values()}" th:id="${level}" th:value="${level}"
+<div th:fragment="editor" th:id="|entry-${entry.getId()}|">
+    <form th:fragment="editor" th:object="${entry}" class="flex flex-row">
+        <input type="hidden" th:field="*{id}">
+        <select th:field="*{level}">
+            <option th:each="level : ${T(demo.sw.document.heading.Heading.Level).values()}" th:id="${level}"
+                    th:value="${level}"
                     th:text="${level}"></option>
         </select>
-        <input type="text" id="title" th:field="*{title}">
-        <p th:if="${#fields.hasErrors('title')}" th:text="${#strings.listJoin(#fields.errors('title'), ', ')}"></p>
-        <div th:replace="~{fragments/controls :: save(id=${id})}"></div>
-        <div th:replace="~{fragments/controls :: cancel(id=${id})}"></div>
-        <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+        <input type="text" class="grow" placeholder="Heading" th:field="*{title}">
+
+        <p th:if="${#fields.hasErrors('level')}" th:errors="*{level}">Level Error</p>
+        <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Title Error</p>
+
+        <div th:replace="~{fragments/controls :: save(path=${path},id=${entry.getId()},type=${entry.fragmentName()})}"></div>
+        <div th:replace="~{fragments/controls :: cancel(path=${path},id=${entry.getId()})}"></div>
+        <div th:replace="~{fragments/controls :: delete(path=${path},id=${entry.getId()})}"></div>
     </form>
 </div>
 </html>

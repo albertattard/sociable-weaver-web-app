@@ -9,5 +9,5 @@
 - Run application locally
 
   ```shell
-  ./mvnw clean compile spring-boot:run
+  ./mvnw clean verify spring-boot:run
   ```

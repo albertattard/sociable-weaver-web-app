@@ -2,9 +2,20 @@
       xmlns:th="http://www.thymeleaf.org"
       lang="en">
 
-<div th:fragment="reader" th:id="|entry-${id}|">
-    <div th:utext="${entry.contentsAsHtml()}"></div>
-    <div th:replace="~{fragments/controls :: edit(id=${id})}"></div>
-    <div th:replace="~{fragments/controls :: delete(id=${id})}"></div>
+<div th:fragment="reader" th:id="|entry-${entry.getId()}|">
+    <div th:utext="${entry.getContentsAsHtml()}"></div>
+    <div th:replace="~{fragments/controls :: edit(id=${entry.getId()})}"></div>
+    <div th:replace="~{fragments/controls :: delete(id=${entry.getId()})}"></div>
+</div>
+
+<div th:fragment="editor" th:id="|entry-${entry.getId()}|">
+    <form th:fragment="editor" th:object="${entry}">
+        <input type="hidden" th:field="*{id}">
+        <textarea th:field="*{contentsAsText}"></textarea>
+
+        <div th:replace="~{fragments/controls :: save(id=${entry.getId()}, type=${entry.fragmentName()})}"></div>
+        <div th:replace="~{fragments/controls :: cancel(id=${entry.getId()})}"></div>
+        <div th:replace="~{fragments/controls :: delete(id=${entry.getId()})}"></div>
+    </form>
 </div>
 </html>
